@@ -262,30 +262,29 @@ class XLSWriterPlus extends XLSXWriter
      */
     protected function buildContentTypesXML()
     {
-        $content_types_xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>' . "\n";
+        $content_types_xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n";
         $content_types_xml .= '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">';
-        $content_types_xml .= '
-        
-        <Default Extension="jpeg" ContentType="image/jpeg" />
-        <Default Extension="png" ContentType="image/png" />
-        <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml" />
-        <Default Extension="xml" ContentType="application/xml" />
-        ';
+        $content_types_xml .= '<Default Extension="jpeg" ContentType="image/jpeg"/>';
+        $content_types_xml .= '<Default Extension="png" ContentType="image/png"/>';
+        $content_types_xml .= '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>';
+        $content_types_xml .= '<Default Extension="xml" ContentType="application/xml"/>';
 
 		$content_types_drawing_xml = "";
 		$i = 1;
         foreach ($this->sheets as $sheet_name => $sheet) {
 			$content_types_xml .= '<Override PartName="/xl/worksheets/' . ($sheet->xmlname) . '" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>';
 			if(isset($this->images[$sheet_name]) && \count($this->images[$sheet_name]) > 0){
-				$content_types_drawing_xml .= '<Override PartName="/xl/drawings/drawing' . $i . '.xml" ContentType="application/vnd.openxmlformats-officedocument.drawing+xml" />';
+				$content_types_drawing_xml .= '<Override PartName="/xl/drawings/drawing' . $i . '.xml" ContentType="application/vnd.openxmlformats-officedocument.drawing+xml"/>';
 			}
 			$i++;
         }
         $content_types_xml .= '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>';
 		$content_types_xml .= '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>';
 		$content_types_xml .= $content_types_drawing_xml;
-		$content_types_xml .= "\n";
-        $content_types_xml .= '</Types>';
+// 		$content_types_xml .= "\n";
+		$content_types_xml .= '<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>';
+		$content_types_xml .= '<Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/>';
+		$content_types_xml .= '</Types>';
 
         return $content_types_xml;
     }
@@ -309,6 +308,9 @@ class XLSWriterPlus extends XLSXWriter
             }
             $sheet->file_writer->write('</mergeCells>');
 		}
+        
+        $max_cell = self::xlsCell($sheet->row_count - 1, count($sheet->columns) - 1);
+
 		if ($sheet->auto_filter) {
 			$sheet->file_writer->write('<autoFilter ref="A' . ($sheet->auto_filter). ':' . $max_cell . '"/>'); // from original source and improvements by okatse (https://github.com/okatse)
 		}
@@ -332,7 +334,6 @@ class XLSWriterPlus extends XLSXWriter
         }
         $sheet->file_writer->write('</worksheet>');
 
-        $max_cell = self::xlsCell($sheet->row_count - 1, count($sheet->columns) - 1);
         $max_cell_tag = '<dimension ref="A1:' . $max_cell . '"/>';
         $padding_length = $sheet->max_cell_tag_end - $sheet->max_cell_tag_start - strlen($max_cell_tag);
         $sheet->file_writer->fseek($sheet->max_cell_tag_start);
