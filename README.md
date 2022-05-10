@@ -1,5 +1,5 @@
 # xlswriterplus
-This class EXTENDS XLSWriter por PHP
+This class EXTENDS XLSWriter for PHP
 
 The pourpose of this class is extending https://github.com/mk-j/PHP_XLSXWriter to allow inserting images in a sheet
 
