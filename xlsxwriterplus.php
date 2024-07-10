@@ -306,10 +306,10 @@ class XLSWriterPlus extends XLSXWriter
             $content_types_xml .= '<Default Extension="png" ContentType="image/png"/>';
         }
         if(\array_key_exists("gif", $this->extensions)){
-            $content_types_xml .= '<Default Extension="png" ContentType="image/gif"/>';
+            $content_types_xml .= '<Default Extension="gif" ContentType="image/gif"/>';
         }
         if(\array_key_exists("tiff", $this->extensions) || \array_key_exists("tif", $this->extensions)){
-            $content_types_xml .= '<Default Extension="png" ContentType="image/tiff"/>';
+            $content_types_xml .= '<Default Extension="tiff" ContentType="image/tiff"/>';
         }
         $content_types_xml .= '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>';
         $content_types_xml .= '<Default Extension="xml" ContentType="application/xml"/>';
