@@ -27,7 +27,7 @@ $data = array(
 $writer = new XLSWriterPlus()
 
 $writer->writeSheet($data);
-$writer->addImage('Sheet1', realpath('./media/logo1.jpeg'), 1, 1, [ 'startColNum' => 4, 'startRowNum' => 2, ]);
+$writer->addImage('Sheet1', realpath('./media/logo1.jpeg'), '', 1, [ 'startColNum' => 4, 'startRowNum' => 2, ]);
 $writer->writeToFile('output_simple.xlsx');
 ~~~
 Advanced example:
@@ -52,11 +52,11 @@ $data2 = array(
 $writer = new XLSWriterPlus()
 
 $writer->writeSheet($data);
-$writer->addImage('Sheet1', realpath('./media/logo1.jpeg'), 1, 1, [ 'startColNum' => 4, 'startRowNum' => 2, ]);
-$writer->addImage('Sheet1', realpath('./media/logo1.jpeg'), 2, 2, [ 'startColNum' => 12, 'startRowNum' => 4 ]);
-$writer->addImage('Sheet1', realpath('./media/logo2.png'), 3, 3, [ 'startColNum' => 1, 'startRowNum' => 12 ]);
+$writer->addImage('Sheet1', realpath('./media/logo1.jpeg'), '', 1, [ 'startColNum' => 4, 'startRowNum' => 2, ]);
+$writer->addImage('Sheet1', realpath('./media/logo1.jpeg'), '', 2, [ 'startColNum' => 12, 'startRowNum' => 4 ]);
+$writer->addImage('Sheet1', realpath('./media/logo2.png'), '', 3, [ 'startColNum' => 1, 'startRowNum' => 12 ]);
 // adding data to a new sheet
 $writer->writeSheet($data2, 'Sheet2');
-$writer->addImage('Sheet2', realpath('./media/logo2.png'), 4, 4, [ 'startColNum' => 2, 'startRowNum' => 4 ]);
+$writer->addImage('Sheet2', realpath('./media/logo2.png'), '', 4, [ 'startColNum' => 2, 'startRowNum' => 4 ]);
 $writer->writeToFile('output_advanced.xlsx');
 ~~~
